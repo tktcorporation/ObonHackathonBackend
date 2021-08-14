@@ -30,7 +30,7 @@ ALLOWED_HOSTS: List[str] = [
     "localhost",
     "127.0.0.1",
     "obon-de-hackathon.herokuapp.com",
-    "http://ec2-18-183-146-174.ap-northeast-1.compute.amazonaws.com/",
+    "ec2-18-183-146-174.ap-northeast-1.compute.amazonaws.com",
 ]
 
 
