@@ -1,4 +1,5 @@
 import json
+import random
 
 from apiapp.models import Message
 from django.core import serializers
@@ -17,13 +18,15 @@ class TestApiView(View):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class MessagesApiView(View):
-    def get(self, request):
+    def get(self, request) -> JsonResponse:
+        messages = [m for m in Message.objects.all()]
+        if len(messages) > 5:
+            messages_sample = random.sample(messages, 5)
+        else:
+            messages_sample = messages
+
         return JsonResponse(
-            {
-                "messages": [
-                    {"message": message.value} for message in Message.objects.all()
-                ]
-            }
+            {"messages": [{"message": message.value} for message in messages_sample]}
         )
 
     def post(self, request):
