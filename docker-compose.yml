@@ -9,7 +9,7 @@ services:
       - PYTHONPATH=/workspace
       - MYPYPATH=out
     volumes:
-      - ..:/workspace:cached
+      - .:/workspace:cached
       - /workspace/__pycache__/
       - /workspace/.mypy_cache/
       - /workspace/.pytest_cache/
