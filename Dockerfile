@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
 
 RUN apt update
-RUN apt install -y git
+RUN apt install -y git libpq-dev
 
 RUN pip install --upgrade pip
 RUN pip install poetry
