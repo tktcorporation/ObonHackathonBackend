@@ -26,7 +26,12 @@ SECRET_KEY = "django-insecure-9je=pzyg)n3r3rl)h8$^cl*7yhx=xk72*9p3429b@p$5p$#&ik
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: List[str] = ['localhost', '127.0.0.1', 'obon-de-hackathon.herokuapp.com']
+ALLOWED_HOSTS: List[str] = [
+    "localhost",
+    "127.0.0.1",
+    "obon-de-hackathon.herokuapp.com",
+    "http://ec2-18-183-146-174.ap-northeast-1.compute.amazonaws.com/",
+]
 
 # Application definition
 
