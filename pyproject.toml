@@ -6,7 +6,7 @@ authors = ["tktcorporation"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "3.9.6"
 Django = "^3.2"
 
 [tool.pysen]

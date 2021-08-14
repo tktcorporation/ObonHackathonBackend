@@ -2,3 +2,13 @@ version: "3.7"
 services:
   app:
     command: "/bin/sh"
+    tty: true
+    environment:
+      - USER=$USER
+      - PYTHONPATH=/workspace
+      - MYPYPATH=out
+    volumes:
+      - .:/workspace:cached
+      - /workspace/__pycache__/
+      - /workspace/.mypy_cache/
+      - /workspace/.pytest_cache/
