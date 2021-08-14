@@ -3,8 +3,19 @@ services:
   app:
     build: .
     command: "/bin/sh -c 'poetry run ./manage.py runserver 0.0.0.0:8000 --nostatic'"
+    working_dir: /app
     ports:
       - "8000:8000"
+    tty: true
+    environment:
+      - USER=$USER
+      - PYTHONPATH=/app
+      - MYPYPATH=out
+    volumes:
+      - .:/workspace:cached
+      - /app/__pycache__/
+      - /app/.mypy_cache/
+      - /app/.pytest_cache/
   heroku:
     # run `apk add docker` before running heroku commands
     image: sue445/heroku-cli

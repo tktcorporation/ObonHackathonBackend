@@ -25,7 +25,8 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"bonprosoft.pysen-vscode"
+		"bonprosoft.pysen-vscode",
+		"ms-python.python"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
