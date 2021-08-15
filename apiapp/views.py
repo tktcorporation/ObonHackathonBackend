@@ -24,16 +24,13 @@ class MessagesApiView(View):
         if "timestamp_from" in request.GET:
             timestamp_from = request.GET.get("timestamp_from")
             try:
-                timestamp_from_filter = datetime.fromtimestamp(
-                    int(timestamp_from)
-                )
+                timestamp_from_filter = datetime.fromtimestamp(int(timestamp_from))
             except Exception as e:
                 print(e)
 
         if timestamp_from_filter:
             messages = [
-                m
-                for m in Message.objects.filter(updated_at__gt=timestamp_from_filter)
+                m for m in Message.objects.filter(updated_at__gt=timestamp_from_filter)
             ]
         else:
             messages = [m for m in Message.objects.all()]
