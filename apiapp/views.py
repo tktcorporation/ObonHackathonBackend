@@ -36,10 +36,12 @@ class MessagesApiView(View):
             messages = [m for m in Message.objects.all()]
 
         # 件数が5以上の場合は5件まで絞る
-        if len(messages) > 5:
-            messages_sample = random.sample(messages, 5)
-        else:
-            messages_sample = messages
+        # if len(messages) > 5:
+        #     messages_sample = random.sample(messages, 5)
+        # else:
+        #     messages_sample = messages
+
+        messages_sample = messages
 
         return JsonResponse(
             {
