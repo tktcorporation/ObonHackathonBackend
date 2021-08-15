@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime
 
 from apiapp.models import Message
 from django.core import serializers
@@ -19,8 +20,23 @@ class TestApiView(View):
 @method_decorator(csrf_exempt, name="dispatch")
 class MessagesApiView(View):
     def get(self, request) -> JsonResponse:
-        # TODO 5min 以内のものだけ取りたい
-        messages = [m for m in Message.objects.all()]
+        timestamp_from_filter = None
+        if "timestamp_from" in request.GET:
+            timestamp_from = request.GET.get("timestamp_from")
+            try:
+                timestamp_from_filter = datetime.fromtimestamp(
+                    int(timestamp_from)
+                )
+            except Exception as e:
+                print(e)
+
+        if timestamp_from_filter:
+            messages = [
+                m
+                for m in Message.objects.filter(updated_at__gt=timestamp_from_filter)
+            ]
+        else:
+            messages = [m for m in Message.objects.all()]
 
         # 件数が5以上の場合は5件まで絞る
         if len(messages) > 5:
@@ -28,27 +44,16 @@ class MessagesApiView(View):
         else:
             messages_sample = messages
 
-        print(request.GET.get("datetime"))
-
-        if "datetime" in request.GET:
-            bool = request.GET.get("datetime")
-            if bool:
-                return JsonResponse(
-                    {
-                        "messages": [
-                            {
-                                "message": message.value,
-                                "datetime": message.created_at.strftime(
-                                    "%Y-%m-%dT%H:%M:%S%z"
-                                ),
-                            }
-                            for message in messages_sample
-                        ]
-                    }
-                )
-
         return JsonResponse(
-            {"messages": [{"message": message.value} for message in messages_sample]}
+            {
+                "messages": [
+                    {
+                        "message": message.value,
+                        "timestamp": message.created_at.timestamp(),
+                    }
+                    for message in messages_sample
+                ]
+            }
         )
 
     def post(self, request):
