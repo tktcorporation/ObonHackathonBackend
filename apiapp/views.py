@@ -42,6 +42,7 @@ class MessagesApiView(View):
         #     messages_sample = messages
 
         messages_sample = messages
+        random.shuffle(messages_sample)
 
         return JsonResponse(
             {
