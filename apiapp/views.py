@@ -3,7 +3,7 @@ import random
 
 from apiapp.models import Message
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -33,7 +33,8 @@ class MessagesApiView(View):
         body_unicode = request.body.decode("utf-8")
         body = json.loads(body_unicode)
         value = body["message"]
-        if len(value) > 5:
-            return HttpResponseBadRequest('文字数制限: 5')
+        max_length = 10
+        if len(value) > max_length:
+            return HttpResponseBadRequest(f"文字数制限: {max_length}")
         Message.objects.create(value=value)
-        return HttpResponse("OK")
+        return HttpResponse("OK", status=201)
