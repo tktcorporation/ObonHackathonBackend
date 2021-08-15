@@ -19,11 +19,33 @@ class TestApiView(View):
 @method_decorator(csrf_exempt, name="dispatch")
 class MessagesApiView(View):
     def get(self, request) -> JsonResponse:
+        # TODO 5min 以内のものだけ取りたい
         messages = [m for m in Message.objects.all()]
+
+        # 件数が5以上の場合は5件まで絞る
         if len(messages) > 5:
             messages_sample = random.sample(messages, 5)
         else:
             messages_sample = messages
+
+        print(request.GET.get("datetime"))
+
+        if "datetime" in request.GET:
+            bool = request.GET.get("datetime")
+            if bool:
+                return JsonResponse(
+                    {
+                        "messages": [
+                            {
+                                "message": message.value,
+                                "datetime": message.created_at.strftime(
+                                    "%Y-%m-%dT%H:%M:%S%z"
+                                ),
+                            }
+                            for message in messages_sample
+                        ]
+                    }
+                )
 
         return JsonResponse(
             {"messages": [{"message": message.value} for message in messages_sample]}
